@@ -3,6 +3,7 @@ import torch
 import json
 import os
         
+from utils import clean
         
 def iter_corpus(texts_path, corpus, several_dirs=False):
     if several_dirs:

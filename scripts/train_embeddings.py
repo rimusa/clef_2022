@@ -2,7 +2,7 @@ import logging
 import sys
 
 from train import train_embeddings
-from utils import clean, get_counts
+from utils import get_counts
 from files import iter_corpus
 
 
