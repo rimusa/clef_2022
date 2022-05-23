@@ -1,6 +1,5 @@
 import logging
 import sys
-import os
 
 from train import train_embeddings
 from utils import clean, get_counts

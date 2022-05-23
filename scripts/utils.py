@@ -61,7 +61,7 @@ def preprocess(path, shear=False):
     return df
 
 
-def one_hot(rating, n_labels=len(labels), label_dict=rating_dict, default="other"):
+def one_hot(rating, n_labels, label_dict, default="other"):
     out = [0 for _ in range(n_labels)]
     try:
         idx = label_dict[rating]
@@ -71,7 +71,7 @@ def one_hot(rating, n_labels=len(labels), label_dict=rating_dict, default="other
     return out
 
 
-def labeling(targets, n_labels=len(labels), label_dict=rating_dict, default="other"):
+def labeling(targets, n_labels, label_dict, default="other"):
     out = []
     for target in targets:
         out.append(one_hot(target, n_labels=len(labels), label_dict=rating_dict, default="other"))
