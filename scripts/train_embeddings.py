@@ -63,16 +63,16 @@ def generate_corpus(path, corpus):
             counter += 1
             if (counter % 10 == 0) or (counter == total):
                 logging.info(str(counter) + " of " + str(total) + " sources parsed...")
-            with open(path+"/"+file, "r") as F:
-                print(path+"/"+file)
-                news = json.load(F)
-                for article in news:
-                    title = clean(article["title"])
-                    if title != "":
-                        G.write(title + "\n")
-                    body = clean(article["content"])
-                    if title != "":
-                        G.write(body + "\n")
+            if file != ".empty":
+                with open(path+"/"+file, "r") as F:
+                    news = json.load(F)
+                    for article in news:
+                        title = clean(article["title"])
+                        if title != "":
+                            G.write(title + "\n")
+                        body = clean(article["content"])
+                        if title != "":
+                            G.write(body + "\n")
                         
                         
 def train_embeddings(corpus, model_path):
