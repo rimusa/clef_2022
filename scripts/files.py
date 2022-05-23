@@ -30,7 +30,7 @@ def generate_corpus(path, corpus):
             if (counter % 10 == 0) or (counter == total):
                 logging.info(str(counter) + " of " + str(total) + " sources parsed...")
             if file != ".empty":
-                with open(path+"/"+file, "r") as F:
+                with open(path+file, "r") as F:
                     news = json.load(F)
                     for article in news:
                         title = clean(article["title"])
