@@ -79,14 +79,19 @@ def train_embeddings(corpus, model_path):
     Trains and saves a FastText model from a corpus file
     """
     
+    logging.info("Initializing embedding model...")
     nela_model = FastText(vector_size=300, sg=1)
+    logging.info("Building vocabulary...")
     nela_model.build_vocab(corpus_file=corpus)
+    logging.info("Begin training!")
     nela_model.train(
                      corpus_file=corpus, epochs=nela_model.epochs,
                      total_examples=nela_model.corpus_count, total_words=nela_model.corpus_total_words
                     )
-
+    logging.info("Training successfully finished!")
+    logging.info("Saving model...")
     nela_model.save(model_path)
+    logging.info("Model saved!")
 
 
 def main(texts_path, results_path, emb_path, emb_name, several_dirs=False):           
@@ -94,14 +99,17 @@ def main(texts_path, results_path, emb_path, emb_name, several_dirs=False):
     corpus = results_path + emb_name + "_texts.txt"
     model_path = emb_path + emb_name
     
+    logging.info("Checking whether the corpus file exists")
     try:
         f = open(corpus, "x")
         f.close()
+        logging.info("Corpus file created!")
     except FileExistsError:
         f = open(corpus, "w")
         f.close()
+        logging.info("Corpus file reset!")
            
-    
+    logging.info("Creating the embeddings corpus...")
     if several_dirs:
         paths = os.listdir(texts_path)
         for path in paths:
@@ -109,10 +117,14 @@ def main(texts_path, results_path, emb_path, emb_name, several_dirs=False):
     else:
         generate_corpus(texts_path, corpus)
         
+    logging.info("Embeddings corpus created!")
+        
+    logging.info("Creating the vocabulary file...")
     get_counts(corpus, wordlist)
     
+    logging.info("Getting ready to train the embeddings!")
     train_embeddings(corpus, model_path)
-    
+    logging.info("Embeddings trained! :)")
     
     
 
