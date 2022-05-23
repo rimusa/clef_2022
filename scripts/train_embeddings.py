@@ -11,7 +11,7 @@ nltk.download('punkt')
 
 from collections import defaultdict
 
-from . import train.train_embeddings
+from .train import train_embeddings
 
 
 def clean(text):
