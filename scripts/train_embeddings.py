@@ -23,7 +23,7 @@ def main(texts_path, results_path, emb_path, emb_name, several_dirs=False):
         logging.info("Corpus file reset!")
            
     logging.info("Creating the embeddings corpus...")
-    iter_corpus(texts_path, corpus, several_dirs=False)
+    iter_corpus(texts_path, corpus, several_dirs)
         
     logging.info("Embeddings corpus created!")
         
