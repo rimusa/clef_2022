@@ -5,13 +5,13 @@ import json
 import sys
 import os
 
-from gensim.models import FastText
 from nltk.tokenize import word_tokenize
 
 nltk.download('punkt')
 
 from collections import defaultdict
 
+from .train import train_embeddings
 
 
 def clean(text):
@@ -73,26 +73,6 @@ def generate_corpus(path, corpus):
                         body = clean(article["content"])
                         if title != "":
                             G.write(body + "\n")
-                        
-                        
-def train_embeddings(corpus, model_path):
-    """
-    Trains and saves a FastText model from a corpus file
-    """
-    
-    logging.info("Initializing embedding model...")
-    nela_model = FastText(vector_size=300, sg=1)
-    logging.info("Building vocabulary...")
-    nela_model.build_vocab(corpus_file=corpus)
-    logging.info("Begin training!")
-    nela_model.train(
-                     corpus_file=corpus, epochs=nela_model.epochs,
-                     total_examples=nela_model.corpus_count, total_words=nela_model.corpus_total_words
-                    )
-    logging.info("Training successfully finished!")
-    logging.info("Saving model...")
-    nela_model.save(model_path)
-    logging.info("Model saved!")
 
 
 def main(texts_path, results_path, emb_path, emb_name, several_dirs=False):           
