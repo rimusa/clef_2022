@@ -1,78 +1,11 @@
 import logging
-import pickle
-import nltk
-import json
 import sys
 import os
 
-from nltk.tokenize import word_tokenize
-
-nltk.download('punkt')
-
-from collections import defaultdict
-
 from train import train_embeddings
+from utils import clean, get_counts
+from files import iter_corpus
 
-
-def clean(text):
-    """
-    Tokenizes text using word_tokenize from nltk
-    """
-    T = [token for token in word_tokenize(text) if token not in ["@", "#"]]
-    line = " ".join(T)
-    return line
-
-
-def get_counts(corpus, wordlist):
-    """
-    Generates a count dictionary given a corpus text file
-    """
-    counts = defaultdict(int)
-    counter = 0
-    logging.info("Generating word counts")
-    with open(corpus, "r") as F:
-        for line in F:
-            counter += 1
-            if counter % 100000 == 0:
-                logging.info(str(counter) + " lines counted...")
-            tokens = line.split()
-            for token in tokens:
-                counts[token.lower()] += 1
-    
-    logging.info(str(counter) + " total lines counted.")
-    
-    with open(wordlist, "wb") as F:
-        pickle.dump(counts, F)
-        
-    logging.info("Wordcount dictionary saved at " + wordcount)
-        
-        
-def generate_corpus(path, corpus):
-    """
-    Generates a corpus from a series
-    """
-    files = os.listdir(path)
-
-    total = len(files)
-    counter = 0
-
-    logging.info("Found " + str(total) + " news sources")
-
-    with open(corpus, "a+") as G:
-        for file in files:
-            counter += 1
-            if (counter % 10 == 0) or (counter == total):
-                logging.info(str(counter) + " of " + str(total) + " sources parsed...")
-            if file != ".empty":
-                with open(path+"/"+file, "r") as F:
-                    news = json.load(F)
-                    for article in news:
-                        title = clean(article["title"])
-                        if title != "":
-                            G.write(title + "\n")
-                        body = clean(article["content"])
-                        if title != "":
-                            G.write(body + "\n")
 
 
 def main(texts_path, results_path, emb_path, emb_name, several_dirs=False):           
@@ -91,12 +24,7 @@ def main(texts_path, results_path, emb_path, emb_name, several_dirs=False):
         logging.info("Corpus file reset!")
            
     logging.info("Creating the embeddings corpus...")
-    if several_dirs:
-        paths = os.listdir(texts_path)
-        for path in paths:
-            generate_corpus(texts_path+path, corpus)
-    else:
-        generate_corpus(texts_path, corpus)
+    iter_corpus(path, corpus, several_dirs=False)
         
     logging.info("Embeddings corpus created!")
         
