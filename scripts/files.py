@@ -4,7 +4,7 @@ import json
 import os
         
         
-def iter_corpus(path, corpus, several_dirs=False):
+def iter_corpus(texts_path, corpus, several_dirs=False):
     if several_dirs:
         paths = os.listdir(texts_path)
         for path in paths:
