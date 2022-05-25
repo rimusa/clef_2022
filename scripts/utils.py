@@ -40,7 +40,7 @@ def get_counts(corpus, wordlist):
     with open(wordlist, "wb") as F:
         pickle.dump(counts, F)
         
-    logging.info("Wordcount dictionary saved at " + wordcount)
+    logging.info("Wordcount dictionary saved at " + wordlist)
     
     
 

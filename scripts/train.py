@@ -9,12 +9,15 @@ def train_embeddings(corpus, model_path):
     
     logging.info("Initializing embedding model...")
     nela_model = FastText(vector_size=300, sg=1)
+    #nela_model.logger.level = logging.WARNING
     logging.info("Building vocabulary...")
     nela_model.build_vocab(corpus_file=corpus)
     logging.info("Begin training!")
     nela_model.train(
                      corpus_file=corpus, epochs=nela_model.epochs,
-                     total_examples=nela_model.corpus_count, total_words=nela_model.corpus_total_words
+                     total_examples=nela_model.corpus_count,
+                     total_words=nela_model.corpus_total_words,
+		     log_level=False
                     )
     logging.info("Training successfully finished!")
     logging.info("Saving model...")
